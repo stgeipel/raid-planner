@@ -6,8 +6,6 @@ import passport from 'passport';
 
 dotenv.config();
 
-console.log(process.env);
-
 const app = express();
 app.set('port', process.env.PORT);
 app.use(bodyParser.json());
