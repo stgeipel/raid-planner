@@ -14,4 +14,12 @@ router.get(
   }
 );
 
+router.get('/', (req, res) => {
+  if (req.user) {
+    res.send(req.user);
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 export default router;

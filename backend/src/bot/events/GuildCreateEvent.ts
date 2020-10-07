@@ -2,7 +2,7 @@
 import { Guild } from 'discord.js';
 import BaseEvent from '../utils/structures/BaseEvent';
 import DiscordClient from '../client/client';
-import GuildConfig from '../database/schema/GuildConfig';
+import GuildConfig from '../../database/schema/GuildConfig';
 
 export default class GuildCreateEvent extends BaseEvent {
   constructor() {
