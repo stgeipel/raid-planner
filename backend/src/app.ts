@@ -6,15 +6,14 @@ dotenv.config();
 
 import passport from 'passport';
 import routes from './routes';
-import db from './database/db';
 import session from 'express-session';
 import mongoose from 'mongoose';
+import { connect } from './database/database';
 
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-db.then(() => console.log('Connected to MongoDB.')).catch((err) =>
-  console.log(err)
-);
+// Connecting to MongoDb
+connect();
 
 const app = express();
 const store = new MongoDBStore({

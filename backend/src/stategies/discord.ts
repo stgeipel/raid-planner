@@ -1,8 +1,9 @@
 import passportDiscord from 'passport-discord';
 import passport from 'passport';
-import User from '../database/schema/User';
+import { connect } from '../database/database';
 
 const DiscordStrategy = passportDiscord.Strategy;
+const db = connect();
 
 passport.serializeUser((user: any, done) => {
   console.log('Serialize');
@@ -11,7 +12,7 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (id, done) => {
   console.log('Deserializing');
-  const user = await User.findById(id);
+  const user = await db.UserModel.findById(id);
   if (user) done(null, user);
 });
 
@@ -24,30 +25,15 @@ passport.use(
       scope: ['identify', 'guilds'],
     },
     async (accessToken, refreshToken, profile, done) => {
-      const { id, username, discriminator, avatar, guilds } = profile;
+      const { id, username, discriminator, avatar } = profile;
 
       try {
-        const findUser = await User.findOneAndUpdate(
-          { discordId: id },
-          {
-            discordTag: `${username}#${discriminator}`,
-            avatar,
-            guilds,
-          },
-          { new: true }
-        );
-
-        if (findUser) {
-          return done(null, findUser);
-        } else {
-          const newUser = await User.create({
-            discordId: id,
-            discordTag: `${username}#${discriminator}`,
-            avatar,
-            guilds,
-          });
-          return done(null, newUser);
-        }
+        const user = db.UserModel.findOneAndUpdateOrCreate({
+          discordId: id,
+          discordTag: `${username}#${discriminator}`,
+          avatar: avatar,
+        });
+        done(null, user);
       } catch (err) {
         console.log(err);
         return done(err, null);
