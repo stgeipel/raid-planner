@@ -8,8 +8,7 @@ const Home: NextPage = () => {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-    const data = getUser();
-    console.log(data);
+    getUser().then((res) => setUser(res));
   });
 
   return <DashboardLayout></DashboardLayout>;

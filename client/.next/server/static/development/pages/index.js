@@ -298,10 +298,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_hook_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/hook/user */ "./utils/hook/user.ts");
 
 
-var _this = undefined,
-    _jsxFileName = "/Users/steffengeipel/dev/github/stgeipel/raid-planner/client/pages/index.tsx";
-
-
 
 
 
@@ -313,17 +309,11 @@ var Home = function Home() {
       setUser = _useState2[1];
 
   react__WEBPACK_IMPORTED_MODULE_1___default.a.useEffect(function () {
-    var data = Object(_utils_hook_user__WEBPACK_IMPORTED_MODULE_3__["getUser"])();
-    console.log(data);
+    Object(_utils_hook_user__WEBPACK_IMPORTED_MODULE_3__["getUser"])().then(function (res) {
+      return setUser(res);
+    });
   });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_layout_DashboardLayout__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    __self: _this,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 15,
-      columnNumber: 10
-    }
-  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_layout_DashboardLayout__WEBPACK_IMPORTED_MODULE_2__["default"], null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Home);
@@ -352,16 +342,10 @@ __webpack_require__.r(__webpack_exports__);
 // }
 // export { getUser };
 function getUser() {
-  var data = fetch('http://localhost:3001/api/auth', {
+  return fetch('http://localhost:3001/api/auth', {
     credentials: 'include'
   }).then(function (res) {
-    if (res.status >= 400) {
-      throw new Error('Fehler');
-    }
-
-    return res.json();
-  }).catch(function (err) {
-    return console.log(err);
+    res.json();
   });
 }
 
