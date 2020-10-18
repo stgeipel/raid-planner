@@ -1,20 +1,4 @@
-import * as React from "react";
-import "../styles/index.css";
-import Home from "../components/Sample";
+import React from 'react';
+import DashboardLayout from '../components/layout/DashboardLayout';
 
-export default () => (
-  <div
-    className="
-      flex
-      flex-col
-      column
-      justify-center 
-      bg-blue-darkest 
-      h-screen 
-      items-center 
-      text-white
-    "
-  >
-    <Home message="nextjs-typescript-tailwindcss-starter" />
-  </div>
-);
+export default () => <DashboardLayout></DashboardLayout>;
