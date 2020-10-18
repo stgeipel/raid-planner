@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import express from 'express';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ const store = new MongoDBStore({
   uri: process.env.SESSION_DB_CONNECTION,
 });
 app.set('port', process.env.PORT);
+
+app.use(cors());
 
 app.use(
   session({

@@ -1,11 +1,12 @@
 import passportDiscord from 'passport-discord';
 import passport from 'passport';
 import { connect } from '../database/database';
+import { IUserDocument } from '../database/user/user.types';
 
 const DiscordStrategy = passportDiscord.Strategy;
 const db = connect();
 
-passport.serializeUser((user: any, done) => {
+passport.serializeUser((user: IUserDocument, done) => {
   console.log('Serialize');
   done(null, user.id);
 });
@@ -28,7 +29,7 @@ passport.use(
       const { id, username, discriminator, avatar } = profile;
 
       try {
-        const user = db.UserModel.findOneAndUpdateOrCreate({
+        const user = await db.UserModel.findOneAndUpdateOrCreate({
           discordId: id,
           discordTag: `${username}#${discriminator}`,
           avatar: avatar,
