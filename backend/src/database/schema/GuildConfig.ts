@@ -1,5 +1,4 @@
-import { Guild } from "discord.js";
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const GuildConfigSchema = new mongoose.Schema({
   guildId: {
@@ -10,7 +9,7 @@ const GuildConfigSchema = new mongoose.Schema({
   prefix: {
     type: mongoose.SchemaTypes.String,
     required: true,
-    default: "!",
+    default: '!',
   },
   defaultRole: {
     type: mongoose.SchemaTypes.String,
@@ -22,4 +21,4 @@ const GuildConfigSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("GuildConfig", GuildConfigSchema);
+export default mongoose.model('GuildConfig', GuildConfigSchema);

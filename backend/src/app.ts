@@ -1,13 +1,49 @@
+import dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import express from 'express';
-import routes from './routes';
-import dotenv from 'dotenv';
-import passport from 'passport';
+import cors, { CorsOptions } from 'cors';
 
 dotenv.config();
 
+import passport from 'passport';
+import routes from './routes';
+import session from 'express-session';
+import mongoose from 'mongoose';
+import { connect } from './database/database';
+
+const MongoDBStore = require('connect-mongodb-session')(session);
+
+// Connecting to MongoDb
+connect();
+
 const app = express();
+const corsOptions: CorsOptions = {
+  origin:
+    app.get('env') === 'development'
+      ? 'http://localhost:3000'
+      : process.env.DOMAIN,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+const store = new MongoDBStore({
+  uri: process.env.DB_CONNECTION,
+});
 app.set('port', process.env.PORT);
+
+app.use(cors(corsOptions));
+
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week,
+    },
+    resave: true,
+    saveUninitialized: true,
+    store: store,
+  })
+);
+
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
