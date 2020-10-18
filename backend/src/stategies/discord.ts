@@ -6,13 +6,13 @@ import { IUserDocument } from '../database/user/user.types';
 const DiscordStrategy = passportDiscord.Strategy;
 const db = connect();
 
-passport.serializeUser((user: IUserDocument, done) => {
-  console.log('Serialize');
+passport.serializeUser((user: any, done) => {
+  console.log('Serialize', user);
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  console.log('Deserializing');
+  console.log('Deserializing', id);
   const user = await db.UserModel.findById(id);
   if (user) done(null, user);
 });

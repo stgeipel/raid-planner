@@ -14,7 +14,7 @@
 
 export function getUser() {
   const data = fetch('http://localhost:3001/api/auth', {
-    credentials: true,
+    credentials: 'include',
   })
     .then((res) => {
       if (res.status >= 400) {

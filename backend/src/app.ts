@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import express from 'express';
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 
 dotenv.config();
 
@@ -17,12 +17,20 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 connect();
 
 const app = express();
+const corsOptions: CorsOptions = {
+  origin:
+    app.get('env') === 'development'
+      ? 'http://localhost:3000'
+      : process.env.DOMAIN,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
 const store = new MongoDBStore({
-  uri: process.env.SESSION_DB_CONNECTION,
+  uri: process.env.DB_CONNECTION,
 });
 app.set('port', process.env.PORT);
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(
   session({
